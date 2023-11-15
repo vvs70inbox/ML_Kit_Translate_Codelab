@@ -18,12 +18,11 @@
 package com.google.mlkit.codelab.translate.main
 
 import android.app.Application
-import android.os.Handler
 import android.util.LruCache
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -72,10 +71,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-    val sourceLang = Transformations.switchMap(sourceText) { text ->
+    val sourceLang = sourceText.switchMap { text ->
         val result = MutableLiveData<Language>()
         // TODO  Call the language identification method and assigns the result if it is not
         //  undefined (“und”)
+        result.value = Language("en")
         result
     }
 
